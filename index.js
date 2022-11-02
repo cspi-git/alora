@@ -31,7 +31,11 @@
     
         const messageArgs = message.content.split(" ")
         const date = moment().format("MMMM Do YYYY, h:mm:ss a")
-        const user = message.mentions.users.first()
+        var user = message.mentions.users.first()
+
+        if(!isNaN(messageArgs[1])) if(message.guild.members.cache.get(messageArgs[1])){
+            user = message.guild.members.cache.get(messageArgs[1]).user
+        }
         
         var userData = await users.findOne({ userID: message.author.id })
         var tUserData;
@@ -46,7 +50,7 @@
             tUserData = await users.findOne({ userID: user.id })
 
             if(!tUserData){
-                tUserData = { userID: message.author.id, reputation: 0, reputationUsers: [], activities: [], hanu: 0 }
+                tUserData = { userID: user.id, reputation: 0, reputationUsers: [], hanu: 0, hanuUsers: [], activities: [] }
     
                 await users.insertOne(tUserData)
             }
@@ -97,6 +101,7 @@
             message.reply(embed) 
         }else if(messageArgs[0] === "a.rep"){
             if(!messageArgs[1]) return message.reply("usage: a.rep <user> <reputation> <message>\nGive someone a rep without a rep: a.rep <user> +1 <message>")
+            if(!tUserData) return message.reply("Please mention a user or specify the user id.")
 
             const messageTS = messageArgs.slice(3).join(" ")
 
@@ -133,6 +138,7 @@
             }
         }else if(messageArgs[0] === "a.donate"){
             if(!messageArgs[1]) return message.reply("usage: a.donate <user> <hanu> <message>")
+            if(!tUserData) return message.reply("Please mention a user or specify the user id.")
 
             const messageTS = messageArgs.slice(3).join(" ")
 
