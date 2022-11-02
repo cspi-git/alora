@@ -1,0 +1,9 @@
+{
+    "dependencies": {
+        "dotenv": "^16.0.1",
+        "mongodb": "^4.7.0",
+        "discord.js": "^12.5.3",
+        "moment": "^2.29.3",
+        "lodash": "^4.17.21"
+    }
+}
