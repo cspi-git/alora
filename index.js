@@ -111,7 +111,9 @@
 
                 tUserData.reputationUsers.push({ userID: message.author.id, gave: reputation, message: messageTS, date: date })
                 tUserData.activities.push({ type: "reputation", userTag: message.author.tag, userID: message.author.id, message: `${message.author.tag} +1 your reputation.`, date: date })
+                userData.activities.push({ type: "reputation", userTag: message.author.tag, userID: message.author.id, message: `You +1 ${user.tag} reputation.`, date: date })
                 await users.updateOne({ userID: user.id }, { $set: { reputation: +tUserData.reputation+1, reputationUsers: tUserData.reputationUsers, activities: tUserData.activities } })
+                await users.updateOne({ userID: message.author.id }, { $set: { activities: userData.activities } })
 
                 message.reply("You have given the user +1 reputation.")
             }else{
